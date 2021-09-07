@@ -22,12 +22,49 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.spongepowered.common.mixin.api.minecraft.server.packs.resources;
+package org.spongepowered.common.resource;
 
 import net.minecraft.server.packs.resources.Resource;
-import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.api.ResourceKey;
+import org.spongepowered.api.resource.ResourcePath;
 
-@Mixin(Resource.class)
-public interface ResourceMixin_API extends org.spongepowered.api.resource.Resource {
+import java.io.InputStream;
 
+public final class SpongeResource implements org.spongepowered.api.resource.Resource {
+
+    private final ResourcePath path;
+    private InputStream stream;
+
+    public SpongeResource(final Resource resource) {
+        this.path = new SpongeResourcePath((ResourceKey) (Object) resource.getLocation());
+        this.stream = resource.getInputStream();
+    }
+
+    public SpongeResource(final ResourcePath path, final InputStream stream) {
+        this.path = path;
+        this.stream = stream;
+
+    }
+
+    @Override
+    public ResourcePath path() {
+        return this.path;
+    }
+
+    @Override
+    public InputStream inputStream() {
+        if (this.stream == null) {
+            throw new IllegalStateException("Attempt made to access the data of a resource after it has been closed!");
+        }
+        return this.stream;
+    }
+
+    @Override
+    public void close() throws Exception {
+        try {
+            this.stream.close();
+        } finally {
+            this.stream = null;
+        }
+    }
 }

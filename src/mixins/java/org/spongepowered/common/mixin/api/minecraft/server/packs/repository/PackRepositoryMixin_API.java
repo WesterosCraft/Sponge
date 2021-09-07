@@ -25,9 +25,65 @@
 package org.spongepowered.common.mixin.api.minecraft.server.packs.repository;
 
 import net.minecraft.server.packs.repository.PackRepository;
+import org.spongepowered.api.resource.pack.Pack;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.plugin.PluginContainer;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 
 @Mixin(PackRepository.class)
 public abstract class PackRepositoryMixin_API implements org.spongepowered.api.resource.pack.PackRepository {
 
+    // @formatter:off
+    @Shadow private Map<String, net.minecraft.server.packs.repository.Pack> available;
+    @Shadow public abstract Collection<net.minecraft.server.packs.repository.Pack> shadow$getAvailablePacks();
+    @Shadow public abstract Collection<net.minecraft.server.packs.repository.Pack> shadow$getSelectedPacks();
+    //@formatter:on
+
+    @Override
+    public Collection<Pack> all() {
+        return (Collection<Pack>) (Object) this.shadow$getAvailablePacks();
+    }
+
+    @Override
+    public Collection<Pack> disabled() {
+        final List<Pack> disabled = new ArrayList<>();
+        for (final Map.Entry<String, net.minecraft.server.packs.repository.Pack> entry : this.available.entrySet()) {
+            boolean selected = false;
+
+            for (final net.minecraft.server.packs.repository.Pack selectedPack : this.shadow$getSelectedPacks()) {
+                if (selectedPack == entry.getValue()) {
+                    selected = true;
+                    break;
+                }
+            }
+
+            if (!selected) {
+                disabled.add((Pack) entry.getValue());
+            }
+        }
+
+        return disabled;
+    }
+
+    @Override
+    public Collection<Pack> enabled() {
+        return (Collection<Pack>) (Object) this.shadow$getSelectedPacks();
+    }
+
+    @Override
+    public Optional<Pack> pack(final String name) {
+        return Optional.ofNullable((Pack) this.available.get(Objects.requireNonNull(name, "name")));
+    }
+
+    @Override
+    public Pack pack(final PluginContainer container) {
+        return this.pack(container.metadata().id()).get();
+    }
 }

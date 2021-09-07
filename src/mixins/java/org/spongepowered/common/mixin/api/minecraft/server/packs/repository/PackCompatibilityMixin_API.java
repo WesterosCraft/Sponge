@@ -25,10 +25,10 @@
 package org.spongepowered.common.mixin.api.minecraft.server.packs.repository;
 
 import net.minecraft.server.packs.repository.PackCompatibility;
-import org.spongepowered.api.resource.pack.PackVersion;
+import org.spongepowered.api.resource.pack.PackStatus;
 import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(PackCompatibility.class)
-public abstract class PackCompatibilityMixin_API implements PackVersion {
+public abstract class PackCompatibilityMixin_API implements PackStatus {
 
 }

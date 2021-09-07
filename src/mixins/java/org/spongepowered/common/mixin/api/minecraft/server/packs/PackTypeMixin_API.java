@@ -26,8 +26,17 @@ package org.spongepowered.common.mixin.api.minecraft.server.packs;
 
 import net.minecraft.server.packs.PackType;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(PackType.class)
 public abstract class PackTypeMixin_API implements org.spongepowered.api.resource.pack.PackType {
 
+    // @formatter:off
+    @Shadow public abstract String shadow$getDirectory();
+    // @formatter:on
+
+    @Override
+    public String directory() {
+        return this.shadow$getDirectory();
+    }
 }

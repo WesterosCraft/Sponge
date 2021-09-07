@@ -25,22 +25,22 @@
 package org.spongepowered.common.resource.pack;
 
 import net.minecraft.server.packs.repository.PackCompatibility;
-import org.spongepowered.api.resource.pack.PackVersion;
+import org.spongepowered.api.resource.pack.PackStatus;
 
-public final class SpongePackVersionFactory implements PackVersion.Factory {
+public final class SpongePackStatusFactory implements PackStatus.Factory {
 
     @Override
-    public PackVersion compatible() {
-        return (PackVersion) (Object) PackCompatibility.COMPATIBLE;
+    public PackStatus compatible() {
+        return (PackStatus) (Object) PackCompatibility.COMPATIBLE;
     }
 
     @Override
-    public PackVersion newer() {
-        return (PackVersion) (Object) PackCompatibility.TOO_NEW;
+    public PackStatus newer() {
+        return (PackStatus) (Object) PackCompatibility.TOO_NEW;
     }
 
     @Override
-    public PackVersion older() {
-        return (PackVersion) (Object) PackCompatibility.TOO_OLD;
+    public PackStatus older() {
+        return (PackStatus) (Object) PackCompatibility.TOO_OLD;
     }
 }
