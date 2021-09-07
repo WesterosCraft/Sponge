@@ -60,7 +60,6 @@ import org.spongepowered.api.registry.RegistryKey;
 import org.spongepowered.api.registry.RegistryReference;
 import org.spongepowered.api.registry.RegistryType;
 import org.spongepowered.api.registry.TypeNotFoundException;
-import org.spongepowered.api.resource.metadata.MetadataSection;
 import org.spongepowered.api.resource.pack.PackType;
 import org.spongepowered.api.resource.pack.PackVersion;
 import org.spongepowered.api.resourcepack.ResourcePack;
@@ -126,7 +125,6 @@ import org.spongepowered.common.network.channel.SpongeChannelExceptionHandlerFac
 import org.spongepowered.common.network.status.SpongeFavicon;
 import org.spongepowered.common.profile.SpongeGameProfile;
 import org.spongepowered.common.profile.SpongeProfilePropertyFactory;
-import org.spongepowered.common.resource.metadata.SpongeMetadataSectionFactory;
 import org.spongepowered.common.resource.pack.SpongePackTypeFactory;
 import org.spongepowered.common.resource.pack.SpongePackVersionFactory;
 import org.spongepowered.common.resourcepack.SpongeResourcePack;
@@ -275,7 +273,6 @@ public final class SpongeFactoryProvider implements FactoryProvider {
                 .registerFactory(ItemStack.Factory.class, new SpongeItemStack.FactoryImpl())
                 .registerFactory(BlockSnapshot.Factory.class, new SpongeBlockSnapshot.FactoryImpl())
                 .registerFactory(PackType.Factory.class, new SpongePackTypeFactory())
-                .registerFactory(MetadataSection.Factory.class, new SpongeMetadataSectionFactory())
                 .registerFactory(PackVersion.Factory.class, new SpongePackVersionFactory())
         ;
     }

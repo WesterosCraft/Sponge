@@ -25,10 +25,10 @@
 package org.spongepowered.common.mixin.api.minecraft.server.packs;
 
 import net.minecraft.server.packs.PackResources;
-import org.spongepowered.api.resource.pack.Pack;
+import org.spongepowered.api.resource.pack.PackContentsContainer;
 import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(PackResources.class)
-public interface PackResourcesMixin_API extends Pack {
+public interface PackResourcesMixin_API extends PackContentsContainer {
 
 }

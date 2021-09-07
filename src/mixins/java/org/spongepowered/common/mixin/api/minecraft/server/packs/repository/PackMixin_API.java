@@ -25,10 +25,9 @@
 package org.spongepowered.common.mixin.api.minecraft.server.packs.repository;
 
 import net.minecraft.server.packs.repository.Pack;
-import org.spongepowered.api.resource.pack.PackInformation;
 import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(Pack.class)
-public abstract class PackMixin_API implements PackInformation {
+public abstract class PackMixin_API implements org.spongepowered.api.resource.pack.Pack {
 
 }

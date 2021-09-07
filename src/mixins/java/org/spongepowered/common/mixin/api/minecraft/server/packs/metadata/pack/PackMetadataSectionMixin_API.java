@@ -25,10 +25,10 @@
 package org.spongepowered.common.mixin.api.minecraft.server.packs.metadata.pack;
 
 import net.minecraft.server.packs.metadata.pack.PackMetadataSection;
-import org.spongepowered.api.resource.metadata.PackMetadata;
+import org.spongepowered.api.resource.pack.PackContentsMetadata;
 import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(PackMetadataSection.class)
-public abstract class PackMetadataSectionMixin_API implements PackMetadata {
+public abstract class PackMetadataSectionMixin_API implements PackContentsMetadata {
 
 }
