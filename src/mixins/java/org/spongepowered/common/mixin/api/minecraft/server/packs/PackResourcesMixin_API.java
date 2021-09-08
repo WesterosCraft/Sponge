@@ -62,8 +62,8 @@ public interface PackResourcesMixin_API extends PackContents {
     }
 
     @Override
-    default Resource resource(final PackRoot type, final ResourcePath path) throws IOException {
-        return new SpongeResource(Objects.requireNonNull(path, "path"), this.shadow$getResource((net.minecraft.server.packs.PackType) (Object) Objects.requireNonNull(type, "type"),
+    default Resource resource(final PackRoot root, final ResourcePath path) throws IOException {
+        return new SpongeResource(Objects.requireNonNull(path, "path"), this.shadow$getResource((net.minecraft.server.packs.PackType) (Object) Objects.requireNonNull(root, "root"),
             (ResourceLocation) (Object) path.key()));
     }
 

@@ -28,7 +28,6 @@ import net.minecraft.server.packs.repository.PackRepository;
 import org.spongepowered.api.resource.pack.Pack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.plugin.PluginContainer;
 
 import java.util.ArrayList;
 import java.util.Collection;

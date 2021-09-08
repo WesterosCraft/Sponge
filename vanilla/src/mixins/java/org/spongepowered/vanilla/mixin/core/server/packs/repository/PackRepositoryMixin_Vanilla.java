@@ -44,18 +44,18 @@ import java.util.Map;
 @Mixin(PackRepository.class)
 public abstract class PackRepositoryMixin_Vanilla implements PackRepositoryBridge_Vanilla {
 
-    private final Map<PluginResource, Pack> vanilla$pluginPacks = new Object2ObjectOpenHashMap<>();
+    private final Map<PluginResource, Pack> vanilla$pluginResourcePacks = new Object2ObjectOpenHashMap<>();
 
     @Override
     public Pack bridge$pack(final PluginContainer container) {
         final VanillaPluginManager pluginManager = (VanillaPluginManager) Launch.instance().pluginManager();
         final PluginResource resource = pluginManager.resource(container);
-        return this.vanilla$pluginPacks.get(resource);
+        return this.vanilla$pluginResourcePacks.get(resource);
     }
 
     @Override
     public void bridge$registerResourcePack(final PluginResource resource, final Pack pack) {
-        this.vanilla$pluginPacks.put(resource, pack);
+        this.vanilla$pluginResourcePacks.put(resource, pack);
     }
 
     @Redirect(method = "<init>*", at = @At(value = "INVOKE", target = "Lcom/google/common/collect/ImmutableSet;copyOf([Ljava/lang/Object;)Lcom/google/common/collect/ImmutableSet;"))
