@@ -22,19 +22,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.spongepowered.common.resource.pack;
+package org.spongepowered.vanilla.mixin.api.minecraft.server.packs.repository;
 
-import org.spongepowered.api.resource.pack.PackType;
+import net.minecraft.server.packs.repository.PackRepository;
+import org.spongepowered.api.resource.pack.Pack;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.plugin.PluginContainer;
+import org.spongepowered.vanilla.bridge.server.packs.repository.PackRepositoryBridge_Vanilla;
 
-public final class SpongePackTypeFactory implements PackType.Factory {
+import java.util.Objects;
+
+@Mixin(PackRepository.class)
+public abstract class PackRepositoryMixin_Vanilla_API implements org.spongepowered.api.resource.pack.PackRepository {
 
     @Override
-    public PackType client() {
-        return (PackType) (Object) net.minecraft.server.packs.PackType.CLIENT_RESOURCES;
-    }
-
-    @Override
-    public PackType server() {
-        return (PackType) (Object) net.minecraft.server.packs.PackType.SERVER_DATA;
+    public Pack pack(final PluginContainer container) {
+        return (Pack) ((PackRepositoryBridge_Vanilla) this).bridge$pack(Objects.requireNonNull(container, "container"));
     }
 }

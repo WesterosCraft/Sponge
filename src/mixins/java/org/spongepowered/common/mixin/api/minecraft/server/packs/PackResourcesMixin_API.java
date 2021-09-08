@@ -30,7 +30,7 @@ import org.spongepowered.api.ResourceKey;
 import org.spongepowered.api.resource.Resource;
 import org.spongepowered.api.resource.ResourcePath;
 import org.spongepowered.api.resource.pack.PackContents;
-import org.spongepowered.api.resource.pack.PackType;
+import org.spongepowered.api.resource.pack.PackRoot;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.common.resource.SpongeResource;
@@ -40,7 +40,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -63,20 +62,15 @@ public interface PackResourcesMixin_API extends PackContents {
     }
 
     @Override
-    default Optional<Resource> resource(final PackType type, final ResourcePath path) throws IOException {
-        if (!this.shadow$hasResource((net.minecraft.server.packs.PackType) (Object) Objects.requireNonNull(type, "type"),
-            (ResourceLocation) (Object) Objects.requireNonNull(path, "path").key())) {
-            return Optional.empty();
-        }
-
-        final InputStream stream = this.shadow$getResource((net.minecraft.server.packs.PackType) (Object) type, (ResourceLocation) (Object) path.key());
-        return Optional.of(new SpongeResource(path, stream));
+    default Resource resource(final PackRoot type, final ResourcePath path) throws IOException {
+        return new SpongeResource(Objects.requireNonNull(path, "path"), this.shadow$getResource((net.minecraft.server.packs.PackType) (Object) Objects.requireNonNull(type, "type"),
+            (ResourceLocation) (Object) path.key()));
     }
 
     @Override
-    default Collection<ResourcePath> paths(final PackType type, final String namespace, final String prefix, final int depth, final Predicate<String> filter) {
+    default Collection<ResourcePath> paths(final PackRoot root, final String namespace, final String prefix, final int depth, final Predicate<String> filter) {
         final Collection<ResourceLocation> resources =
-            this.shadow$getResources((net.minecraft.server.packs.PackType) (Object) Objects.requireNonNull(type, "type"), Objects.requireNonNull(namespace,
+            this.shadow$getResources((net.minecraft.server.packs.PackType) (Object) Objects.requireNonNull(root, "root"), Objects.requireNonNull(namespace,
                 "namespace"), Objects.requireNonNull(prefix, "prefix"), depth, Objects.requireNonNull(filter, "filter"));
 
         return resources
@@ -86,13 +80,13 @@ public interface PackResourcesMixin_API extends PackContents {
     }
 
     @Override
-    default boolean exists(final PackType type, final ResourcePath path) {
-        return this.shadow$hasResource((net.minecraft.server.packs.PackType) (Object) Objects.requireNonNull(type, "type"),
+    default boolean exists(final PackRoot root, final ResourcePath path) {
+        return this.shadow$hasResource((net.minecraft.server.packs.PackType) (Object) Objects.requireNonNull(root, "root"),
             (ResourceLocation) (Object) Objects.requireNonNull(path, "path").key());
     }
 
     @Override
-    default Set<String> namespaces(final PackType type) {
-        return this.shadow$getNamespaces((net.minecraft.server.packs.PackType) (Object) Objects.requireNonNull(type, "type"));
+    default Set<String> namespaces(final PackRoot root) {
+        return this.shadow$getNamespaces((net.minecraft.server.packs.PackType) (Object) Objects.requireNonNull(root, "root"));
     }
 }

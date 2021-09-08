@@ -22,22 +22,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.spongepowered.common.mixin.api.minecraft.server.packs;
+package org.spongepowered.vanilla.bridge.server.packs.repository;
 
-import net.minecraft.server.packs.PackType;
-import org.spongepowered.api.resource.pack.PackRoot;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
+import net.minecraft.server.packs.repository.Pack;
+import org.spongepowered.plugin.PluginContainer;
+import org.spongepowered.plugin.PluginResource;
 
-@Mixin(PackType.class)
-public abstract class PackTypeMixin_API implements PackRoot {
+public interface PackRepositoryBridge_Vanilla {
 
-    // @formatter:off
-    @Shadow public abstract String shadow$getDirectory();
-    // @formatter:on
+    Pack bridge$pack(PluginContainer container);
 
-    @Override
-    public String directory() {
-        return this.shadow$getDirectory();
-    }
+    void bridge$registerResourcePack(PluginResource resource, Pack pack);
 }

@@ -25,31 +25,39 @@
 package org.spongepowered.test.pack;
 
 import com.google.inject.Inject;
-import org.apache.logging.log4j.Logger;
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.spongepowered.api.Server;
+import org.spongepowered.api.Engine;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.lifecycle.StartedEngineEvent;
+import org.spongepowered.api.resource.Resource;
+import org.spongepowered.api.resource.ResourcePath;
 import org.spongepowered.api.resource.pack.Pack;
+import org.spongepowered.api.resource.pack.PackRoot;
+import org.spongepowered.plugin.PluginContainer;
 import org.spongepowered.plugin.builtin.jvm.Plugin;
 
 @Plugin("packtest")
 public final class PackTest {
 
-    private final Logger logger;
+    private final PluginContainer plugin;
 
     @Inject
-    public PackTest(final Logger logger) {
-        this.logger = logger;
+    public PackTest(final PluginContainer plugin) {
+        this.plugin = plugin;
     }
 
     @Listener
-    public void onStartedServer(final StartedEngineEvent<@NonNull Server> event) {
-        final Server server = event.engine();
+    public void onStartedEngine(final StartedEngineEvent<@NonNull Engine> event) {
+        this.plugin.logger().warn("Printing packs for engine: {}", event.engine().toString());
+        for (final Pack pack : event.engine().packRepository().all()) {
+            this.plugin.logger().error(pack.id());
+        }
 
-        this.logger.warn("Printing packs for server");
-        for (final Pack pack : server.packRepository().all()) {
-            this.logger.error(pack.id());
+        final Pack pack = event.engine().packRepository().pack(this.plugin);
+        try (final Resource resource = pack.contents().resource(PackRoot.assets(), ResourcePath.of(this.plugin, "test.txt"))) {
+            System.err.println(resource);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

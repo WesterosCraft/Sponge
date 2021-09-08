@@ -22,22 +22,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.spongepowered.common.mixin.api.minecraft.server.packs;
+package org.spongepowered.common.resource.pack;
 
-import net.minecraft.server.packs.PackType;
 import org.spongepowered.api.resource.pack.PackRoot;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 
-@Mixin(PackType.class)
-public abstract class PackTypeMixin_API implements PackRoot {
-
-    // @formatter:off
-    @Shadow public abstract String shadow$getDirectory();
-    // @formatter:on
+public final class SpongePackRootFactory implements PackRoot.Factory {
 
     @Override
-    public String directory() {
-        return this.shadow$getDirectory();
+    public PackRoot assets() {
+        return (PackRoot) (Object) net.minecraft.server.packs.PackType.CLIENT_RESOURCES;
+    }
+
+    @Override
+    public PackRoot data() {
+        return (PackRoot) (Object) net.minecraft.server.packs.PackType.SERVER_DATA;
     }
 }
