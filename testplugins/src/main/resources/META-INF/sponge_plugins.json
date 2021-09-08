@@ -213,6 +213,12 @@
             "name": "Lifecycle Test",
             "entrypoint": "org.spongepowered.test.lifecycle.LifecycleTest",
             "description": "Lifecycle Testing"
+        },
+        {
+            "id": "packtest",
+            "name": "Pack Test",
+            "entrypoint": "org.spongepowered.test.pack.PackTest",
+            "description": "Pack Testing"
         }
     ]
 }

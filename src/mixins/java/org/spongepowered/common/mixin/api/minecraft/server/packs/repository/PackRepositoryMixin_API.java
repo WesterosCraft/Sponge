@@ -78,12 +78,12 @@ public abstract class PackRepositoryMixin_API implements org.spongepowered.api.r
     }
 
     @Override
-    public Optional<Pack> pack(final String name) {
-        return Optional.ofNullable((Pack) this.available.get(Objects.requireNonNull(name, "name")));
+    public Optional<Pack> pack(final String id) {
+        return Optional.ofNullable((Pack) this.available.get(Objects.requireNonNull(id, "id")));
     }
 
     @Override
     public Pack pack(final PluginContainer container) {
-        return this.pack(container.metadata().id()).get();
+        return this.pack(Objects.requireNonNull(container, "container").metadata().id()).get();
     }
 }

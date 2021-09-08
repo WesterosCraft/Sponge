@@ -42,17 +42,14 @@ public abstract class PackMixin_API implements org.spongepowered.api.resource.pa
 
     // @formatter:off
     @Shadow @Final private Supplier<PackResources> supplier;
+    @Shadow @Final private net.minecraft.network.chat.Component title;
+    @Shadow @Final private net.minecraft.network.chat.Component description;
 
     @Shadow public abstract String shadow$getId();
-    @Shadow public abstract net.minecraft.network.chat.Component shadow$getTitle();
-    @Shadow public abstract net.minecraft.network.chat.Component shadow$getDescription();
     @Shadow public abstract PackCompatibility shadow$getCompatibility();
     @Shadow public abstract boolean shadow$isRequired();
     @Shadow public abstract boolean shadow$isFixedPosition();
     // @formatter:on
-
-    private final Component api$title = SpongeAdventure.asAdventure(this.shadow$getTitle());
-    private final Component api$description = SpongeAdventure.asAdventure(this.shadow$getDescription());
 
     @Override
     public String id() {
@@ -66,12 +63,12 @@ public abstract class PackMixin_API implements org.spongepowered.api.resource.pa
 
     @Override
     public Component title() {
-        return this.api$title;
+        return SpongeAdventure.asAdventure(this.title);
     }
 
     @Override
     public Component description() {
-        return this.api$description;
+        return SpongeAdventure.asAdventure(this.description);
     }
 
     @Override

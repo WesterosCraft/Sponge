@@ -22,30 +22,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.spongepowered.common.asset;
+package org.spongepowered.test.pack;
 
-import org.spongepowered.api.asset.Asset;
-import org.spongepowered.plugin.PluginContainer;
+import com.google.inject.Inject;
+import org.apache.logging.log4j.Logger;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.spongepowered.api.Server;
+import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.lifecycle.StartedEngineEvent;
+import org.spongepowered.api.resource.pack.Pack;
+import org.spongepowered.plugin.builtin.jvm.Plugin;
 
-import java.net.URL;
+@Plugin("packtest")
+public final class PackTest {
 
-public final class SpongeAsset implements Asset {
+    private final Logger logger;
 
-    private final PluginContainer plugin;
-    private final URL url;
-
-    SpongeAsset(final PluginContainer plugin, final URL url) {
-        this.plugin = plugin;
-        this.url = url;
+    @Inject
+    public PackTest(final Logger logger) {
+        this.logger = logger;
     }
 
-    @Override
-    public PluginContainer owner() {
-        return this.plugin;
-    }
+    @Listener
+    public void onStartedServer(final StartedEngineEvent<@NonNull Server> event) {
+        final Server server = event.engine();
 
-    @Override
-    public URL url() {
-        return this.url;
+        this.logger.warn("Printing packs for server");
+        for (final Pack pack : server.packRepository().all()) {
+            this.logger.error(pack.id());
+        }
     }
 }
